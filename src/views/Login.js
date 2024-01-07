@@ -1,19 +1,54 @@
-import React, { useState } from 'react';
-import {useNavigate } from 'react-router-dom';
-import login from '../images/login.png'
-import {
-    Typography, Button, TextField, Container, Box
-} from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import loginImg from '../images/login.png';
+import { Typography, TextField, Button, Container, Box } from '@mui/material';
 import CustomAppBar from "./CryptoAppBar";
-import {useAuth} from "../AuthContext";
+import { useAuth } from "../AuthContext";
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const { isAuthenticated, handleLogout } = useAuth();
+    const [isGoogleScriptLoaded, setIsGoogleScriptLoaded] = useState(false);
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const script = document.createElement('script');
+        script.src = "https://accounts.google.com/gsi/client?hl=en";
+        script.async = true;
+        script.defer = true;
+        script.onload = () => {
+            setIsGoogleScriptLoaded(true);
+        };
+        document.body.appendChild(script);
+        return () => {
+            document.body.removeChild(script);
+        };
+    }, []);
+
+    useEffect(() => {
+        if (isGoogleScriptLoaded) {
+            window.google.accounts.id.initialize({
+                client_id: "696132791550-ral8gkn00orccirt8g5ar2mp66ul4ovk.apps.googleusercontent.com", // Replace with your client ID
+                callback: handleCredentialResponse
+            });
+
+            window.google.accounts.id.renderButton(
+                document.getElementById("googleSignInDiv"),
+                {
+                    theme: "outline",
+                    size: "large",
+                    text: "signin_with", // Ensure English text
+                    shape: "pill", // A more modern, rounded shape
+                    logo_alignment: "left" // Align the logo to the left
+                }
+            );
+
+            window.google.accounts.id.prompt();
+        }
+    }, [isGoogleScriptLoaded]);
 
     const authenticateUser = async (credentials) => {
         try {
@@ -27,10 +62,8 @@ function Login() {
 
             if (response.ok) {
                 const data = await response.json();
-                // Store the JWT token in local storage or context
                 localStorage.setItem('token', data.token);
-                // Redirect to a protected route or home page
-                navigate('/'); // Adjust the route as needed
+                navigate('/');
             } else {
                 const errorData = await response.json();
                 setError(errorData.message || 'Authentication failed');
@@ -39,29 +72,55 @@ function Login() {
             setError('Authentication failed: Check your email and password and try again!');
         }
     };
+
+    const handleCredentialResponse = async (response) => {
+        console.log("Encoded JWT ID token: " + response.credential);
+        try {
+            const googleResponse = await fetch('http://localhost:8080/api/v1/auth/google', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ token: response.credential }),
+            });
+
+            if (googleResponse.ok) {
+                const data = await googleResponse.json();
+                localStorage.setItem('token', data.token);
+                navigate('/');
+            } else {
+                setError('Google authentication failed');
+            }
+        } catch (error) {
+            setError('Google authentication failed:' + error.message);
+        }
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        setError(''); // Clear any existing errors
+        setError('');
         authenticateUser({ email, password });
     };
+
     const inputStyle = {
-        color: 'white',
-        borderColor: '#75F9ED',
-        borderWidth: '1px',
-        borderStyle: 'solid',
-        '&:before': { borderBottomColor: 'white' },
-        '&:after': { borderBottomColor: 'white' },
-        '&:hover:not(.Mui-disabled):before': { borderBottomColor: 'white' },
+        input: {
+            color: 'white',
+            borderColor: '#75F9ED',
+            '&:before': { borderBottomColor: 'white' },
+            '&:after': { borderBottomColor: 'white' },
+            '&:hover:not(.Mui-disabled):before': { borderBottomColor: 'white' }
+        },
+        label: { color: 'white' }
     };
 
     return (
         <>
-            <CustomAppBar isAuthenticated={isAuthenticated} handleLogout={handleLogout}/>
+            <CustomAppBar isAuthenticated={isAuthenticated} handleLogout={handleLogout} />
             <Box
                 sx={{
                     height: '100vh',
                     width: '100vw',
-                    backgroundImage: `url(${login})`,
+                    backgroundImage: `url(${loginImg})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     display: 'flex',
@@ -72,9 +131,9 @@ function Login() {
             >
                 <Container component="main" maxWidth="xs"
                            sx={{
-                               backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                               backgroundColor: 'rgba(0, 0, 0, 0.8)', // Slightly darker background for better contrast
                                p: 4,
-                               borderRadius: 2,
+                               borderRadius: 3, // More pronounced rounding
                                boxShadow: '0 4px 10px rgba(0, 0, 0, 0.5)',
                            }}
                 >
@@ -95,8 +154,7 @@ function Login() {
                             autoFocus
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            InputProps={{ style: inputStyle }}
-                            InputLabelProps={{ style: { color: 'white' } }}
+                            sx={inputStyle}
                         />
                         <TextField
                             variant="outlined"
@@ -110,8 +168,7 @@ function Login() {
                             autoComplete="current-password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            InputProps={{ style: inputStyle }}
-                            InputLabelProps={{ style: { color: 'white' } }}
+                            sx={inputStyle}
                         />
                         <Button
                             type="submit"
@@ -122,6 +179,7 @@ function Login() {
                             Login
                         </Button>
                     </form>
+                    <div id="googleSignInDiv" style={{ marginTop: '10px' }}></div> {/* Google Sign-In button container */}
                 </Container>
             </Box>
         </>

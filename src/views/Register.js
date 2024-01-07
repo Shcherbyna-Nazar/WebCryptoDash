@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
-import {useNavigate} from 'react-router-dom';
-import register_img from '../images/register.png'
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import register_img from '../images/register.png';
 import {
-    Typography, Button, TextField, Container, Box
+    Typography, Button, TextField, Container, Box, Snackbar, Alert
 } from '@mui/material';
 import CustomAppBar from "./CryptoAppBar";
-import {useAuth} from "../AuthContext";
+import { useAuth } from "../AuthContext";
 
 function Register() {
     const [firstName, setFirstName] = useState('');
@@ -14,9 +14,25 @@ function Register() {
     const [password, setPassword] = useState('');
     const [repeatPassword, setRepeatPassword] = useState('');
     const [error, setError] = useState('');
-    const { isAuthenticated, handleLogout } = useAuth();
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState('info');
 
+    const { isAuthenticated, handleLogout } = useAuth();
     const navigate = useNavigate();
+
+    const handleCloseSnackbar = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpenSnackbar(false);
+    };
+
+    const displaySnackbar = (message, severity) => {
+        setSnackbarMessage(message);
+        setSnackbarSeverity(severity);
+        setOpenSnackbar(true);
+    };
 
     const registerUser = async (registerRequest) => {
         try {
@@ -28,41 +44,50 @@ function Register() {
                 body: JSON.stringify(registerRequest),
             });
 
-            if (response.ok) {
-                navigate('/login'); // Redirect to the login page
-            } else {
+            // Check if the response is in JSON format
+            const contentType = response.headers.get("content-type");
+            if (contentType && contentType.indexOf("application/json") !== -1) {
                 const errorData = await response.json();
-                setError(errorData.message || 'Registration failed');
+                if (response.ok) {
+                    displaySnackbar('Registered successfully! Please log in.', 'success');
+                    navigate('/login');
+                } else {
+                    setError(errorData.message || 'Registration failed');
+                    displaySnackbar(errorData.message || 'Registration failed', 'error');
+                }
+            } else {
+                // Handle non-JSON responses here
+                const textResponse = await response.text();
+                setError(textResponse || 'An unknown error occurred');
+                displaySnackbar(textResponse || 'An unknown error occurred', 'error');
             }
         } catch (error) {
-            setError('Network error: Could not register');
+            setError(error.message);
+            displaySnackbar(error.message, 'error');
         }
     };
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (password !== repeatPassword) {
             setError('Passwords do not match.');
+            displaySnackbar('Passwords do not match.', 'error');
             return;
         }
         setError(''); // Clear any existing errors
-        const registerRequest = {firstName, lastName, email, password};
+        const registerRequest = { firstName, lastName, email, password };
         registerUser(registerRequest);
     };
+
     const inputStyle = {
         color: 'white',
         borderColor: '#75F9ED',
         borderWidth: '1px',
         borderStyle: 'solid',
-        '&:before': { // underline color when textfield is not focused
-            borderBottomColor: 'white',
-        },
-        '&:after': { // underline color when textfield is focused
-            borderBottomColor: 'white',
-        },
-        '&:hover:not(.Mui-disabled):before': { // underline color when hovered
-            borderBottomColor: 'white',
-        },
+        '&:before': { borderBottomColor: 'white' },
+        '&:after': { borderBottomColor: 'white' },
+        '&:hover:not(.Mui-disabled):before': { borderBottomColor: 'white' },
     };
 
     return (
@@ -85,7 +110,7 @@ function Register() {
 
                 <Container component="main" maxWidth="xs"
                            sx={{
-                               backgroundColor: 'rgba(0, 0, 0, 0.7)', // Adjusted to a darker, semi-transparent background
+                               backgroundColor: 'rgba(0, 0, 0, 0.7)',
                                p: 4,
                                borderRadius: 2,
                                boxShadow: '0 4px 10px rgba(0, 0, 0, 0.5)',
@@ -95,6 +120,7 @@ function Register() {
                     </Typography>
                     {error && <Box className="alert alert-danger" sx={{mb: 2}}>{error}</Box>}
                     <form onSubmit={handleSubmit}>
+                        {/* First Name Field */}
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -107,13 +133,10 @@ function Register() {
                             autoFocus
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
-                            InputProps={{
-                                style: inputStyle
-                            }}
-                            InputLabelProps={{
-                                style: {color: 'white'} // Light color for the label text
-                            }}
+                            InputProps={{ style: inputStyle }}
+                            InputLabelProps={{ style: {color: 'white'} }}
                         />
+                        {/* Last Name Field */}
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -126,13 +149,10 @@ function Register() {
                             autoFocus
                             value={lastName}
                             onChange={(e) => setLastName(e.target.value)}
-                            InputProps={{
-                                style: inputStyle
-                            }}
-                            InputLabelProps={{
-                                style: {color: 'white'} // Light color for the label text
-                            }}
+                            InputProps={{ style: inputStyle }}
+                            InputLabelProps={{ style: {color: 'white'} }}
                         />
+                        {/* Email Field */}
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -145,13 +165,10 @@ function Register() {
                             autoFocus
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            InputProps={{
-                                style: inputStyle
-                            }}
-                            InputLabelProps={{
-                                style: {color: 'white'} // Light color for the label text
-                            }}
+                            InputProps={{ style: inputStyle }}
+                            InputLabelProps={{ style: {color: 'white'} }}
                         />
+                        {/* Password Field */}
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -165,13 +182,10 @@ function Register() {
                             autoFocus
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            InputProps={{
-                                style: inputStyle
-                            }}
-                            InputLabelProps={{
-                                style: {color: 'white'} // Light color for the label text
-                            }}
+                            InputProps={{ style: inputStyle }}
+                            InputLabelProps={{ style: {color: 'white'} }}
                         />
+                        {/* Repeat Password Field */}
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -185,13 +199,10 @@ function Register() {
                             autoFocus
                             value={repeatPassword}
                             onChange={(e) => setRepeatPassword(e.target.value)}
-                            InputProps={{
-                                style: inputStyle
-                            }}
-                            InputLabelProps={{
-                                style: {color: 'white'} // Light color for the label text
-                            }}
+                            InputProps={{ style: inputStyle }}
+                            InputLabelProps={{ style: {color: 'white'} }}
                         />
+                        {/* Submit Button */}
                         <Button
                             type="submit"
                             fullWidth
@@ -205,9 +216,13 @@ function Register() {
                 </Container>
             </Box>
 
-
+            {/* Snackbar for Notifications */}
+            <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+                <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity} sx={{width: '100%'}}>
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
         </>
-
     );
 }
 
