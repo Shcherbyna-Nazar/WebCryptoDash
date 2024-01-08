@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: '16' # specify the Node.js version
       - name: Install dependencies (if your project requires dependencies)
-        run: npm install
+        run: npm install --legacy-peer-deps
       - name: Build (add this if your project requires a build step)
         run: npm run build
       - name: Deploy to Azure Static Web Apps
