@@ -30,7 +30,7 @@ function HomePage() {
         const fetchTopCryptos = async () => {
             try {
                 setIsLoading(true);  // Start loading
-                const response = await fetch("http://localhost:8080/api/v1/crypto/all?page=0&size=10&sortBy=id");
+                const response = await fetch("https://cryptodashweb.azurewebsites.net/api/v1/crypto/all?page=0&size=10&sortBy=id");
                 const data = await response.json();
                 const topTenData = data.content;
                 setTopCryptos(topTenData);

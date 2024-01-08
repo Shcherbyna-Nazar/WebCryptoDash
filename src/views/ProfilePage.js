@@ -71,7 +71,7 @@ function ProfilePage() {
         const fetchUserData = async () => {
             if (!userEmail) return;
             try {
-                const response = await fetch(`http://localhost:8080/api/v1/user/${userEmail}`);
+                const response = await fetch(`https://cryptodashweb.azurewebsites.net/api/v1/user/${userEmail}`);
                 const data = await response.json();
                 setUser(data);
                 setFirstName(data.firstName || '');  // Установка начального значения как пустая строка, если данных нет

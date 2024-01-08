@@ -32,7 +32,7 @@ function Cryptocurrencies() {
         const fetchData = async () => {
             try {
                 setIsLoading(true);  // Start loading
-                const response = await fetch(`http://localhost:8080/api/v1/crypto/all?page=${page}&size=${rowsPerPage}&sortBy=id`);
+                const response = await fetch(`https://cryptodashweb.azurewebsites.net/api/v1/crypto/all?page=${page}&size=${rowsPerPage}&sortBy=id`);
                 if (response.ok) {
                     const data = await response.json();
                     setCryptos(data.content);

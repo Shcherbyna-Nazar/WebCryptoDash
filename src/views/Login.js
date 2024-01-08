@@ -76,7 +76,7 @@ function Login() {
     const handleCredentialResponse = async (response) => {
         console.log("Encoded JWT ID token: " + response.credential);
         try {
-            const googleResponse = await fetch('http://localhost:8080/api/v1/auth/google', {
+            const googleResponse = await fetch('https://cryptodashweb.azurewebsites.net/api/v1/auth/google', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

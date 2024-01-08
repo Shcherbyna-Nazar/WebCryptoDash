@@ -34,7 +34,7 @@ function CoinDetail() {
     useEffect(() => {
         const fetchCoinDetail = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/api/v1/crypto/details/${coinId}`);
+                const response = await fetch(`https://cryptodashweb.azurewebsites.net/api/v1/crypto/details/${coinId}`);
                 if (response.ok) {
                     const data = await response.json();
                     setCoinDetail(data);
