@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import { useNavigate } from 'react-router-dom';
 import loginImg from '../images/login.png';
 import { Typography, TextField, Button, Container, Box } from '@mui/material';
@@ -28,6 +28,29 @@ function Login() {
         };
     }, []);
 
+    const handleCredentialResponse = useCallback(async (response) => {
+        console.log("Encoded JWT ID token: " + response.credential);
+        try {
+            const googleResponse = await fetch('https://cryptodashweb.azurewebsites.net/api/v1/auth/google', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ token: response.credential }),
+            });
+
+            if (googleResponse.ok) {
+                const data = await googleResponse.json();
+                localStorage.setItem('token', data.token);
+                navigate('/');
+            } else {
+                setError('Google authentication failed');
+            }
+        } catch (error) {
+            setError('Google authentication failed:' + error.message);
+        }
+    }, [navigate]);
+
     useEffect(() => {
         if (isGoogleScriptLoaded) {
             window.google.accounts.id.initialize({
@@ -48,7 +71,7 @@ function Login() {
 
             window.google.accounts.id.prompt();
         }
-    }, [isGoogleScriptLoaded]);
+    }, [isGoogleScriptLoaded, handleCredentialResponse]);
 
     const authenticateUser = async (credentials) => {
         try {
@@ -73,28 +96,6 @@ function Login() {
         }
     };
 
-    const handleCredentialResponse = async (response) => {
-        console.log("Encoded JWT ID token: " + response.credential);
-        try {
-            const googleResponse = await fetch('https://cryptodashweb.azurewebsites.net/api/v1/auth/google', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ token: response.credential }),
-            });
-
-            if (googleResponse.ok) {
-                const data = await googleResponse.json();
-                localStorage.setItem('token', data.token);
-                navigate('/');
-            } else {
-                setError('Google authentication failed');
-            }
-        } catch (error) {
-            setError('Google authentication failed:' + error.message);
-        }
-    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
