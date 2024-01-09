@@ -22,9 +22,9 @@ jobs:
       - name: Set up Node.js (if your project requires Node.js)
         uses: actions/setup-node@v2
         with:
-          node-version: '16' # specify the Node.js version
+          node-version: '18' # specify the Node.js version
       - name: Install dependencies (if your project requires dependencies)
-        run: npm install --legacy-peer-deps
+        run: npm install 
       - name: Build (add this if your project requires a build step)
         run: npm run build
       - name: Deploy to Azure Static Web Apps
@@ -37,7 +37,6 @@ jobs:
           app_location: "/" 
           api_location: "" 
           output_location: "build" 
-          app_build_command: 'npm install --legacy-peer-deps && npm run build' # Custom build command
 
 
   close_pull_request_job:
