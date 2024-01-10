@@ -59,3 +59,4 @@ jobs:
           slot-name: 'Production'
           package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_BC85F72690884D1889B2B839F4E8FDEA }}
+          enableCustomDeployment: true 
