@@ -1,70 +1,68 @@
-# Getting Started with Create React App
+# WebCryptoDash: Cryptocurrency Information Platform
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Introduction
 
-## Available Scripts
+Welcome to **WebCryptoDash**, a sophisticated and secure web application for cryptocurrency enthusiasts and professionals. This React 18-based platform, integrated with the `cryptodashweb.azurewebsites.net` API, provides real-time insights into the crypto market, secured with JWT authentication for enhanced security and reliability.
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- **Live Cryptocurrency Data**: Real-time tracking of prices, market capitalization, and trading volumes for various cryptocurrencies.
+- **Enhanced Security**: Robust JWT authentication to safeguard user data and access.
+- **Market Trends Analysis**: Insights into market trends, historical data, and predictive analytics for informed decision-making.
+- **Customizable Dashboard**: Personalize your dashboard to monitor your cryptocurrency portfolio and market movements.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Technical Specifications
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **Frontend Framework**: React 18
+- **Backend Framework**: Java Spring
+- **Authentication**: JWT (JSON Web Token)
+- **API**: `cryptodashweb.azurewebsites.net` for real-time cryptocurrency data
+- **Database**: MySQL
+- **Frontend Technologies**: React 18, HTML5, CSS3, JavaScript
+- **Build and Dependency Management**: Gradle
 
-### `npm test`
+## Installation Guide
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Prerequisites
 
-### `npm run build`
+- Node.js
+- React 18
+- Java Development Kit (JDK)
+- Gradle
+- MySQL Server
+- IDE of choice (e.g., IntelliJ IDEA, Eclipse)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Setting Up
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. **Clone the Repository**
+   ```shell
+   git clone [repository URL]
+   cd WebCryptoDash
+## Configure MySQL Database
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Create a new database in MySQL. Update the `application.properties` file with your database credentials and URL.
 
-### `npm run eject`
+## Build and Run
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```shell
+gradle build
+gradle bootRun
+The application will be accessible on `localhost:3000`.
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Usage
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Users need to register and log in to access:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- Real-time cryptocurrency data analysis.
+- Personalized dashboard settings.
+- Market updates and alerts based on their portfolio.
 
-## Learn More
+## Contributing
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Contributions to WebCryptoDash are welcome. Please read our contributing guidelines before submitting pull requests.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Support and Feedback
 
-### Code Splitting
+For support requests and feedback, contact **nazar.force@gmail.com**.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
