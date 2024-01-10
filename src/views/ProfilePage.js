@@ -123,7 +123,7 @@ function ProfilePage() {
             formData.append('file', selectedFile);
 
             try {
-                const response = await fetch(`http://localhost:8080/api/v1/user/${userEmail}/uploadPhoto`, {
+                const response = await fetch(`https://cryptodashweb.azurewebsites.net/api/v1/user/${userEmail}/uploadPhoto`, {
                     method: 'POST',
                     body: formData,
                 });
@@ -149,7 +149,7 @@ function ProfilePage() {
         // Если есть что обновить, отправляем запрос
         if (shouldUpdateState) {
             try {
-                const response = await fetch(`http://localhost:8080/api/v1/user/${userEmail}/updateProfile`, {
+                const response = await fetch(`https://cryptodashweb.azurewebsites.net/api/v1/user/${userEmail}/updateProfile`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(updates),

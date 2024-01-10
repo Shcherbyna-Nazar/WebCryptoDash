@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/67ef2fe2-cb9e-416e-8a5e-b3dd1824d6de/resourceGroups/cloud-shell-storage-westeurope/providers/Microsoft.Web/sites/webcryptodash",
+    "appService.deploySubpath": "build"
+}
