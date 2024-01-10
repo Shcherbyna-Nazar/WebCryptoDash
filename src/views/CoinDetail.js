@@ -27,7 +27,7 @@ function CoinDetail() {
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         minHeight: '100vh',
-        padding: '20px',
+        padding: '0px',
         boxSizing: 'border-box',
     };
 
