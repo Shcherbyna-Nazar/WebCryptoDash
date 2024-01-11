@@ -102,13 +102,17 @@ function CoinDetail() {
         <>
             <CustomAppBar isAuthenticated={isAuthenticated} handleLogout={handleLogout} />
 
-            <div style={{
-                background: 'darkGreen', // Задайте ваш цвет фона здесь
-                minHeight: '100vh',
+            <Container sx={{
+                marginTop: 2,
+                color: '#ffffff',
+                backgroundImage: `url(${darkBackground})`, // Apply the dark-themed background image here
+                backgroundSize: 'cover',
+                backgroundPosition: 'center center',
+                backgroundRepeat: 'no-repeat',
+                minHeight: '100vh', // Make the container full height
                 padding: '20px',
                 boxSizing: 'border-box',
             }}>
-                <Container sx={{ marginTop: 2, color: '#ffffff' }}>
                     <Card sx={{ backgroundColor: 'rgba(26, 32, 53, 0.8)' }}>
                         <CardContent>
                             <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
