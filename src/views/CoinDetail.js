@@ -106,7 +106,7 @@ function CoinDetail() {
                     mb: 2,
                     bgcolor: 'rgba(18, 32, 47, 0.9)', // slightly transparent dark background
                     borderRadius: 5,
-                    backgroundImage: `url(${darkBackground})`, // dark-themed background image
+                    backgroundImage: `url(${backgroundImage})`, // dark-themed background image
                     backgroundSize: 'cover',
                     backgroundPosition: 'center center',
                     backgroundRepeat: 'no-repeat',
