@@ -27,12 +27,9 @@ function CoinDetail() {
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         minHeight: '100vh',
-        padding: '10px',
+        padding: '20px',
         boxSizing: 'border-box',
-        borderRadius: 5,
         overflow: 'hidden',
-        position: 'relative', // for absolute positioning of elements within the container
-
     };
 
     useEffect(() => {
