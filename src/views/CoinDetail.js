@@ -101,18 +101,19 @@ function CoinDetail() {
     return (
         <>
             <CustomAppBar isAuthenticated={isAuthenticated} handleLogout={handleLogout} />
-
-            <Container sx={{
-                marginTop: 2,
-                color: '#ffffff',
-                backgroundImage: `url(${darkBackground})`, // Apply the dark-themed background image here
-                backgroundSize: 'cover',
-                backgroundPosition: 'center center',
-                backgroundRepeat: 'no-repeat',
-                minHeight: '100vh', // Make the container full height
-                padding: '20px',
-                boxSizing: 'border-box',
-            }}>
+                <Container maxWidth="xl" sx={{
+                    mt: 2,
+                    mb: 2,
+                    bgcolor: 'rgba(18, 32, 47, 0.9)', // slightly transparent dark background
+                    borderRadius: 5,
+                    backgroundImage: `url(${darkBackground})`, // dark-themed background image
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center center',
+                    backgroundRepeat: 'no-repeat',
+                    position: 'relative', // for absolute positioning of elements within the container
+                    overflow: 'hidden', // to ensure that absolutely positioned elements do not overflow
+                    padding: 3, // padding around the container
+                }}>
                     <Card sx={{ backgroundColor: 'rgba(26, 32, 53, 0.8)' }}>
                         <CardContent>
                             <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
@@ -244,7 +245,6 @@ function CoinDetail() {
                         </CardContent>
                     </Card>
                 </Container>
-            </div>
         </>
     );
 }
