@@ -110,6 +110,8 @@ function CoinDetail() {
                     backgroundSize: 'cover',
                     backgroundPosition: 'center center',
                     backgroundRepeat: 'no-repeat',
+                    boxSizing: 'border-box',
+                    padding: '20px',
                     position: 'relative', // for absolute positioning of elements within the container
                     overflow: 'hidden', // to ensure that absolutely positioned elements do not overflow
                     padding: 3, // padding around the container
